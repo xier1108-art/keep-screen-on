@@ -191,7 +191,7 @@ class KeepAwakeApp:
             return f"{APP_NAME} — 유지 중 ({remaining}분 남음)"
         return f"{APP_NAME} — 유지 중"
 
-    def _make_status_text(self) -> str:
+    def _make_status_text(self, item=None) -> str:
         with self._lock:
             active = self.active
             end = self.timer_end
