@@ -1,0 +1,32 @@
+name: Build EXE
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Python 설치
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 의존성 설치
+        run: pip install pyinstaller pystray Pillow
+
+      - name: EXE 빌드 (spec 파일 사용)
+        run: pyinstaller 화면안꺼지게.spec
+
+      - name: GitHub Release 생성 및 EXE 업로드
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/화면안꺼지게.exe
+          generate_release_notes: true
